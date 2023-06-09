@@ -1,0 +1,21 @@
+
+#letter-container {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+
+  .letter {
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px solid black;
+    background-color: beige;
+    width: 15px;
+    height: 15px;
+    text-align: center;
+
+    &.picked {
+      color: white;
+      background-color: dimgrey;
+    }
+  }
+}

@@ -1,0 +1,9 @@
+#word {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+
+  .word-letter {
+    font-size: 32px;
+  }
+}
