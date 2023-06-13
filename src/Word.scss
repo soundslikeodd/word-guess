@@ -5,5 +5,9 @@
 
   .word-letter {
     font-size: 32px;
+
+    &.miss {
+      text-decoration: underline;
+    }
   }
 }

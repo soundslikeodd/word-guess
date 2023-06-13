@@ -1,8 +1,10 @@
+import classNames from 'classnames';
 import './Word.scss';
 
 const Word = ({
   guesses,
-  word
+  word,
+  limit
 }) => (
   <div
     id="word"
@@ -11,12 +13,19 @@ const Word = ({
       word.split('').map((l, i) => (
         <div
           key={`${l}${i}`}
-          className="word-letter"
+          className={
+            classNames(
+              "word-letter",
+              (limit && !guesses.includes(l)) && 'miss'
+            )
+          }
         >
           {
-            guesses.includes(l)
+            limit
               ? l
-              : '_'
+              : guesses.includes(l)
+                ? l
+                : '_'
           }
         </div>
       ))
