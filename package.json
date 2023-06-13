@@ -5,12 +5,15 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf dist && rm -rf node_modules",
-    "start": "npm install && webpack serve --config webpack.config.js"
+    "start": "npm install && webpack serve --config webpack.config.js",
+    "build": "webpack --mode production",
+    "gh-pages": "npm install && npm run build && gh-pages -d dist -b gh-pages"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "classnames": "^2.3.2",
+    "gh-pages": "^5.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
