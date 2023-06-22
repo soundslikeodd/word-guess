@@ -1,45 +1,34 @@
 import {useState} from 'react';
+import classNames from 'classnames';
 import Letters from './Letters';
 import Word from './Word';
 import Limit from './Limit';
+import WORDS from './words.json';
 import './WordGuess.scss';
-import classNames from 'classnames';
 
-const WORDS = [
-  'apple',
-  'avoid',
-  'basic',
-  'cable',
-  'craft',
-  'delay',
-  'equal',
-  'found',
-  'happy',
-  'glass',
-  'minor',
-  'north',
-  'lucky',
-  'order',
-  'movie',
-  'pilot',
-  'scope',
-  'quite',
-  'today',
-  'water',
-  'visit',
-  'youth',
-  'virus',
-];
-const pickWord = () => WORDS[Math.round(Math.random() * 1000) % WORDS.length];
+const genNewGame = prevGame => {
+  const {
+    word: prevWord,
+    usedWords,
+  } = prevGame || {
+    usedWords: [],
+    prevWord: '',
+  };
+  const reset = usedWords.length + 1 === WORDS.length;
+  const newUsedWords = reset ? [] : [...usedWords, prevWord];
+  const possibleWords = WORDS.filter(w => !newUsedWords.includes(w));
+  const newWord = possibleWords[Math.round(Math.random() * 1000) % possibleWords.length];
+  return {
+    word: newWord,
+    usedWords: newUsedWords,
+    guesses: [],
+    missCount: 0,
+  };
+};
+const initialState = genNewGame();
 
-const genNewGame = () => ({
-  word: pickWord(),
-  guesses: [],
-  missCount: 0,
-});
-
-const WordGuess = ({}) => {
-  const [state, setState] = useState(genNewGame());
+const WordGuess = () => {
+  const [state, setState] = useState(initialState);
   const {
     word,
     guesses,
@@ -51,11 +40,12 @@ const WordGuess = ({}) => {
   const reachedLimit = won || lost;
   const makeGuess = reachedLimit
     ? () => {}
-    : l => setState({
+    : l => setState(prev => ({
+      ...prev,
       word,
       guesses: [...guesses, l],
       missCount: missCount + (word.includes(l) ? 0 : 1),
-    });
+    }));
   return (
     <main
       id="word-guess-container"
@@ -74,7 +64,7 @@ const WordGuess = ({}) => {
           limit={guessLimit}
         />
         <button
-          onClick={() => setState(genNewGame())}
+          onClick={() => setState(prev => genNewGame(prev))}
         >
           New Word
         </button>

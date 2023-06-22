@@ -31,6 +31,11 @@ body {
       button {
         border: 2px black solid;
         border-radius: 5px;
+        cursor: pointer;
+
+        &:active {
+          background-color: Gainsboro;
+        }
       }
     }
   }
